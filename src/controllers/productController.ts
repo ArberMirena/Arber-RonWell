@@ -180,28 +180,68 @@ export const productSwaggerSpec = {
             schema: {
               type: "integer"
             }
-          },
-          {
-            in: "body",
-            name: "body",
-            description: "Product object",
-            required: true,
-            content: {
-              "application/json": {
-                schema: {
-                  $ref: '#/components/schemas/ProductRequest'
+          }
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  name: {
+                    type: "string",
+                    description: "Updated product name"
+                  },
+                  description: {
+                    type: "string",
+                    description: "Updated product description"
+                  },
+                  price: {
+                    type: "number",
+                    format: "float",
+                    description: "Updated product price"
+                  },
+                },
+                example: {
+                  name: "Updated Product",
+                  description: "This is an updated product description",
+                  price: 89.99
                 }
               }
             }
           }
-        ],
+        },
         responses: {
           '200': {
             description: 'Product updated successfully',
             content: {
               'application/json': {
                 schema: {
-                  type: 'object'
+                  type: 'object',
+                  properties: {
+                    id: {
+                      type: 'integer',
+                      description: 'Product ID'
+                    },
+                    name: {
+                      type: 'string',
+                      description: 'Product name'
+                    },
+                    description: {
+                      type: 'string',
+                      description: 'Product description'
+                    },
+                    price: {
+                      type: 'number',
+                      format: 'float',
+                      description: 'Product price'
+                    },
+                    stock: {
+                      type: 'integer',
+                      description: 'Product stock quantity'
+                    }
+                  }
                 }
               }
             }

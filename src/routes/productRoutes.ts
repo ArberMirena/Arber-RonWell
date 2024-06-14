@@ -1,60 +1,3 @@
-import { Request, Response } from 'express';
-import productService from '../services/productService';
-import { getErrorMessage } from '../utils/errorHandler';
-
-class ProductController {
-
-  async createProduct(req: Request, res: Response) {
-    try {
-      const product = await productService.createProduct(req.body);
-      res.status(201).json(product);
-    } catch (error) {
-      res.status(400).json({ error: getErrorMessage(error) });
-    }
-  }
-
-  async getProduct(req: Request, res: Response) {
-    try {
-      const product = await productService.getProductById(Number(req.params.id));
-      if (!product) {
-        return res.status(404).json({ message: 'Product not found' });
-      }
-      res.json(product);
-    } catch (error) {
-      res.status(400).json({ error: getErrorMessage(error) });
-    }
-  }
-
-  async getProducts(req: Request, res: Response) {
-    try {
-      const products = await productService.getAllProducts();
-      res.json(products);
-    } catch (error) {
-      res.status(400).json({ error: getErrorMessage(error) });
-    }
-  }
-
-  async updateProduct(req: Request, res: Response) {
-    try {
-      const product = await productService.updateProduct(Number(req.params.id), req.body);
-      res.json(product);
-    } catch (error) {
-      res.status(400).json({ error: getErrorMessage(error) });
-    }
-  }
-
-  async deleteProduct(req: Request, res: Response) {
-    try {
-      await productService.deleteProduct(Number(req.params.id));
-      res.status(204).send();
-    } catch (error) {
-      res.status(400).json({ error: getErrorMessage(error) });
-    }
-  }
-}
-
-export default new ProductController();
-
 export const productSwaggerSpec = {
   openapi: '3.0.0',
   info: {
@@ -78,7 +21,33 @@ export const productSwaggerSpec = {
           content: {
             "application/json": {
               schema: {
-                type: "object"
+                type: "object",
+                properties: {
+                  name: {
+                    type: "string",
+                    description: "Name of the product"
+                  },
+                  description: {
+                    type: "string",
+                    description: "Description of the product"
+                  },
+                  price: {
+                    type: "number",
+                    format: "float",
+                    description: "Price of the product"
+                  },
+                  stock: {
+                    type: "integer",
+                    description: "Stock quantity"
+                  }
+                },
+                required: ["name", "price", "stock"], // Required fields for creating a product
+                example: {
+                  name: "Sample Product",
+                  description: "This is a sample product",
+                  price: 99.99,
+                  stock: 100
+                }
               }
             }
           }
@@ -89,7 +58,30 @@ export const productSwaggerSpec = {
             content: {
               'application/json': {
                 schema: {
-                  type: 'object'
+                  type: 'object',
+                  properties: {
+                    id: {
+                      type: 'integer',
+                      description: 'Product ID'
+                    },
+                    name: {
+                      type: 'string',
+                      description: 'Product name'
+                    },
+                    description: {
+                      type: 'string',
+                      description: 'Product description'
+                    },
+                    price: {
+                      type: 'number',
+                      format: 'float',
+                      description: 'Product price'
+                    },
+                    stock: {
+                      type: 'integer',
+                      description: 'Product stock quantity'
+                    }
+                  }
                 }
               }
             }
@@ -108,7 +100,33 @@ export const productSwaggerSpec = {
             content: {
               'application/json': {
                 schema: {
-                  type: 'array'
+                  type: 'array',
+                  items: {
+                    type: 'object',
+                    properties: {
+                      id: {
+                        type: 'integer',
+                        description: 'Product ID'
+                      },
+                      name: {
+                        type: 'string',
+                        description: 'Product name'
+                      },
+                      description: {
+                        type: 'string',
+                        description: 'Product description'
+                      },
+                      price: {
+                        type: 'number',
+                        format: 'float',
+                        description: 'Product price'
+                      },
+                      stock: {
+                        type: 'integer',
+                        description: 'Product stock quantity'
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -140,7 +158,30 @@ export const productSwaggerSpec = {
             content: {
               'application/json': {
                 schema: {
-                  type: 'object'
+                  type: 'object',
+                  properties: {
+                    id: {
+                      type: 'integer',
+                      description: 'Product ID'
+                    },
+                    name: {
+                      type: 'string',
+                      description: 'Product name'
+                    },
+                    description: {
+                      type: 'string',
+                      description: 'Product description'
+                    },
+                    price: {
+                      type: 'number',
+                      format: 'float',
+                      description: 'Product price'
+                    },
+                    stock: {
+                      type: 'integer',
+                      description: 'Product stock quantity'
+                    }
+                  }
                 }
               }
             }
@@ -165,28 +206,73 @@ export const productSwaggerSpec = {
             schema: {
               type: "integer"
             }
-          },
-          {
-            in: "body",
-            name: "body",
-            description: "Product object",
-            required: true,
-            content: {
-              "application/json": {
-                schema: {
-                  type: "object"
+          }
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  name: {
+                    type: "string",
+                    description: "Updated product name"
+                  },
+                  description: {
+                    type: "string",
+                    description: "Updated product description"
+                  },
+                  price: {
+                    type: "number",
+                    format: "float",
+                    description: "Updated product price"
+                  },
+                  stock: {
+                    type: "integer",
+                    description: "Updated stock quantity"
+                  }
+                },
+                example: {
+                  name: "Updated Product",
+                  description: "This is an updated product description",
+                  price: 89.99,
+                  stock: 150
                 }
               }
             }
           }
-        ],
+        },
         responses: {
           '200': {
             description: 'Product updated successfully',
             content: {
               'application/json': {
                 schema: {
-                  type: 'object'
+                  type: 'object',
+                  properties: {
+                    id: {
+                      type: 'integer',
+                      description: 'Product ID'
+                    },
+                    name: {
+                      type: 'string',
+                      description: 'Product name'
+                    },
+                    description: {
+                      type: 'string',
+                      description: 'Product description'
+                    },
+                    price: {
+                      type: 'number',
+                      format: 'float',
+                      description: 'Product price'
+                    },
+                    stock: {
+                      type: 'integer',
+                      description: 'Product stock quantity'
+                    }
+                  }
                 }
               }
             }
