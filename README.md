@@ -45,12 +45,15 @@ npx tsc
 
 7. To start the server run the following command
 node dist/server.js  
+\ 
+\ 
 
-
-
+___
 
 **Product API Documentation**
-
+___
+\ 
+\ 
 **Base URL**  \
 `http://localhost:4000`
 
