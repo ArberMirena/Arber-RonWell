@@ -96,8 +96,24 @@ ___
 `Deletes a specific product by ID.`
 
 Parameters:
-`id (number, path, required): ID of the product to delete.`
+`id (number, path, required): ID of the product to delete.`  
 
+___
 
+**The ORM (Sequelize)**
+
+The functions that orm offers are used in productService.ts  \
+
+`Product.create()` - adds the ability to create new entry \
+`Product.findByPk()` - adds the ability to find by primary key  \
+`Product.findAll()` - adds the ability to fetch all data \
+`Product.update()` - adds the ability to update entry \
+`Product.destroy()` - adds the ability to delete entry 
+
+___
+
+**Why Sequelize**
+
+`Sequelize ORM simplifies database interactions in the context of an e-commerce application by offering an intuitive, object-oriented approach to managing database operations, ensuring data integrity, and supporting multiple database platforms seamlessly. These features collectively reduce development time, improve maintainability, and enhance the overall robustness of the application's database layer`
 
 
